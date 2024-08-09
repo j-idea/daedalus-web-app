@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -ex
+
+GIT_SHA=$(git rev-parse --short=7 HEAD)
+if [[ -v "BRANCH_NAME" ]]; then
+    GIT_BRANCH=${BRANCH_NAME}
+else
+    GIT_BRANCH=$(git symbolic-ref --short HEAD)
+fi
+
+REGISTRY=ghcr.io
+ORG=jameel-institute
+DB_IMAGE_NAME=daedalus-web-app-db
+DB_TAG="${REGISTRY}/${ORG}/${DB_IMAGE_NAME}"
+DB_TAG_SHA="${DB_TAG}:${GIT_SHA}"
+DB_TAG_BRANCH="${DB_TAG}:${GIT_BRANCH}"
+
+APP_IMAGE_NAME=daedalus-web-app
+APP_TAG="${REGISTRY}/${ORG}/${APP_IMAGE_NAME}"
+APP_TAG_SHA="${APP_TAG}:${GIT_SHA}"
+APP_TAG_BRANCH="${APP_TAG}:${GIT_BRANCH}"
